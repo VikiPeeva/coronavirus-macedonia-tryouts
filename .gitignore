@@ -10,3 +10,7 @@ local/**
 ./**/..ipynb_checkpoints/**
 local/
 ./**/.~*
+.ipynb_checkpoints/
+maps/.ipynb_checkpoints/
+maps/__pycache__/
+podatoci/.~lock.mkcities.csv#
