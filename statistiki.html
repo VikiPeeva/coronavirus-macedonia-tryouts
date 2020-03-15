@@ -7,6 +7,9 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<title>Статистики за COVID-19 во Република Македонија</title>
+
 </head>
 <body>
 	<nav aria-label="breadcrumb">
@@ -14,14 +17,14 @@
 			<li class="breadcrumb-item"><a href="korona.html">Почетна страна</a></li>
 		</ol>
 	</nav>
-	<div class="p-3 mb-2 bg-info text-black">
+	<!-- <div class="p-3 mb-2 bg-info text-black">
 		<div class="jumbotron">
 			<h1 class="display-6">Стастистики за COVID-19 во Република Македонија</h1>
 			<p class="lead">-Овде може да погледнете статистики за вирусот COVID-19 поврзани со Репубика Македонија</p>
 			<hr class="my-4">
 			<p>Подолу можете да одберете каков вид на податоци сакате да погледнете</p>
 		</div>
-	</div>
+	</div> -->
 	<ul class="nav nav-tabs" id="map-tab" role="tablist">
 		<li class="nav-item">
 			<a class="nav-link active" id="map-cities-tab" data-toggle="tab" href="#map-cities" role="tab" aria-controls="map-cities" aria-selected="true">Мапа по градови</a>
@@ -33,7 +36,7 @@
 	<div class="tab-content" id="myTabContent">
 		<div class="tab-pane fade show active" id="map-cities" role="tabpanel" aria-labelledby="map-cities-tab">...</div>
 		<div class="tab-pane fade" id="map-hospitals" role="tabpanel" aria-labelledby="map-hospitals-tab">
-			<iframe height="450" width="1000" src="map-state.html" align="middle"></iframe> 
+			<iframe height="420" width="1000" srcdoc="map-state.html" align="middle"></iframe> 
 		</div>
 	</div>
 
