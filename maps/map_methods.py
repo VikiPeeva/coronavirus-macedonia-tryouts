@@ -69,7 +69,7 @@ def get_popup(message):
     )
     return popup
 
-def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker=None):
+def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker=None, hide_marker=None):
     if names is None:
         names = cols
     
@@ -77,11 +77,13 @@ def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker
 
     for ind in d.index:
         row=d.loc[ind]
+        if hide_marker is not None and hide_marker(ind, row):
+            continue
         location = (row[lat], row[lng])
         if get_marker is None:
             marker = Marker(location=location, draggable=False)
         else:
-            marker = get_marker(location, row)
+            marker = get_marker(ind, location, row)
         
         
         marker.popup = get_popup(get_popup_html_message(ind, row[cols], cols, names))
