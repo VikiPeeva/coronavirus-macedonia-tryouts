@@ -1,0 +1,12 @@
+
+.idea/.gitignore
+.idea/coronavirus-macedonia-tryouts.iml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+podatoci/.ipynb_checkpoints/
+local/**
+./**/..ipynb_checkpoints/**
+local/
+./**/.~*
