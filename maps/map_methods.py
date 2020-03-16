@@ -1,4 +1,4 @@
-from ipyleaflet import Map, Marker, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles
+from ipyleaflet import Map, Marker, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles, Polygon, Polyline
 from ipywidgets import HTML
 
 import pandas as pd
@@ -93,3 +93,40 @@ def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker
 
     markers = MarkerCluster(markers=tuple(marker_list))
     m.add_layer(markers)
+
+def add_polygon_layer(m, d, lat='lat', lon='lon', border_color='black', opacity=1, fill_color='black', fill_opacity=0.3):
+    locations = list()
+    for ind in d.index:
+        row = d.loc[ind]
+        locations.append((row[lat], row[lon]))
+
+    polygon = Polygon(
+        locations=locations,
+        color=border_color,
+        opacity=opacity,
+        fill_color=fill_color,
+        fill_opacity=fill_opacity
+    )
+
+    m.add_layer(polygon)
+    
+def add_polyline_layer(m, d, line_group, lat='lat', lon='lon', border_color='black', opacity=1, fill_color=None, fill_opacity=0, weight=3):
+    all_locations = dict()
+    for ind in d.index:
+        row = d.loc[ind]
+        locations = list()
+        if row[line_group] in all_locations.keys():
+            locations = all_locations[row[line_group]]
+        locations.append((row[lat], row[lon]))
+        all_locations[row[line_group]] = locations
+        
+    polyline = Polyline(
+        locations=list(all_locations.values()),
+        color=border_color,
+        opacity=opacity,
+        fill_color=fill_color,
+        fill_opacity=fill_opacity,
+        weight=weight
+    )
+    
+    m.add_layer(polyline)

@@ -1,0 +1,71 @@
+<osm version="0.6" generator="CGImap 0.8.1 (5357 thorn-03.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+	<relation id="2605591" visible="true" version="44" changeset="74703450" timestamp="2019-09-20T04:37:00Z" user="nyuriks" uid="339581">
+		<member type="way" ref="436546907" role="outer"/>
+		<member type="way" ref="227935279" role="outer"/>
+		<member type="way" ref="436441574" role="outer"/>
+		<member type="way" ref="193460553" role="outer"/>
+		<member type="way" ref="83469988" role="outer"/>
+		<member type="way" ref="436546910" role="outer"/>
+		<member type="way" ref="83470039" role="outer"/>
+		<member type="way" ref="436544158" role="outer"/>
+		<member type="way" ref="436544087" role="outer"/>
+		<member type="way" ref="55272861" role="outer"/>
+		<member type="way" ref="436544099" role="outer"/>
+		<member type="way" ref="436544088" role="outer"/>
+		<member type="way" ref="436544108" role="outer"/>
+		<member type="way" ref="436544096" role="outer"/>
+		<member type="way" ref="416531251" role="outer"/>
+		<member type="way" ref="539171351" role="outer"/>
+		<member type="way" ref="416529680" role="outer"/>
+		<member type="way" ref="416531246" role="outer"/>
+		<member type="way" ref="416532300" role="outer"/>
+		<member type="way" ref="436519016" role="outer"/>
+		<member type="way" ref="436544162" role="outer"/>
+		<member type="way" ref="436544161" role="outer"/>
+		<member type="way" ref="466939357" role="outer"/>
+		<member type="way" ref="436544155" role="outer"/>
+		<member type="way" ref="466939360" role="outer"/>
+		<member type="way" ref="416535276" role="outer"/>
+		<member type="way" ref="466939369" role="outer"/>
+		<member type="way" ref="436519015" role="outer"/>
+		<member type="way" ref="193449860" role="outer"/>
+		<member type="way" ref="433280803" role="outer"/>
+		<member type="way" ref="193299136" role="outer"/>
+		<member type="way" ref="227935281" role="outer"/>
+		<member type="way" ref="436211178" role="outer"/>
+		<member type="way" ref="436211201" role="outer"/>
+		<member type="way" ref="436544104" role="outer"/>
+		<member type="way" ref="436211181" role="outer"/>
+		<member type="way" ref="436544154" role="outer"/>
+		<member type="way" ref="436205772" role="outer"/>
+		<member type="way" ref="436544084" role="outer"/>
+		<member type="way" ref="435793618" role="outer"/>
+		<member type="way" ref="436544163" role="outer"/>
+		<member type="way" ref="436544093" role="outer"/>
+		<member type="way" ref="436544106" role="outer"/>
+		<member type="way" ref="510978205" role="outer"/>
+		<member type="way" ref="510978208" role="outer"/>
+		<member type="way" ref="510987817" role="outer"/>
+		<member type="way" ref="510984605" role="outer"/>
+		<member type="way" ref="510990889" role="outer"/>
+		<member type="way" ref="510991698" role="outer"/>
+		<member type="way" ref="510992324" role="outer"/>
+		<member type="way" ref="510993495" role="outer"/>
+		<member type="way" ref="510985567" role="outer"/>
+		<member type="way" ref="510995094" role="outer"/>
+		<member type="way" ref="510996078" role="outer"/>
+		<member type="way" ref="436205789" role="outer"/>
+		<member type="way" ref="435792966" role="outer"/>
+		<member type="node" ref="293595929" role="admin_centre"/>
+		<tag k="admin_level" v="7"/>
+		<tag k="boundary" v="administrative"/>
+		<tag k="int_name" v="Opština Debar"/>
+		<tag k="ISO3166-2" v="MK-21"/>
+		<tag k="name" v="Општина Дебар"/>
+		<tag k="name:en" v="Municipality of Debar"/>
+		<tag k="name:ru" v="община Дебар"/>
+		<tag k="type" v="boundary"/>
+		<tag k="wikidata" v="Q1344996"/>
+		<tag k="wikipedia" v="mk:Општина Дебар"/>
+	</relation>
+</osm>
