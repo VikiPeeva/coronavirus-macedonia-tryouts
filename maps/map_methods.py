@@ -130,3 +130,47 @@ def add_polyline_layer(m, d, line_group, lat='lat', lon='lon', border_color='bla
     )
     
     m.add_layer(polyline)
+    
+def add_polygon_layer(m, locations, border_color='black', opacity=1, fill_color=None, fill_opacity=0, weight=3):
+    polygon = Polygon(
+        locations=locations,
+        color=border_color,
+        opacity=opacity,
+        fill_color=fill_color,
+        fill_opacity=fill_opacity,
+        weight=weight
+    )
+    m.add_layer(polygon)
+    
+def get_points_for_polygon_from_line_data(d, line_group, point_id, lat='lat', lon='lon'):
+    points = list()
+    past_ways = list()
+    
+    first = True
+    way = d[line_group].iloc[0]
+    while way not in past_ways:
+        past_ways.append(way)
+        nodes = d.loc[d[line_group]==way]
+        if first:
+            first = False
+        elif last_node_id != nodes[point_id].iloc[0]:
+            nodes = nodes.iloc[::-1]
+        points = points + get_lat_lon_points_from_data(d=nodes, lat=lat, lon=lon)
+        last_node_id = nodes[point_id].iloc[-1]
+        way = d.loc[(d[point_id]==last_node_id) & (d[line_group]!=way)]['WayId'].iloc[0]
+        
+    return points
+    
+    
+    
+def get_lat_lon_points_from_data(d, lat='lat', lon='lon'):
+    points = list()
+    for ind in d.index:
+        row = d.loc[ind]
+        points.append((row[lat], row[lon]))
+        
+    return points
+    
+    
+    
+    
