@@ -9,5 +9,4 @@ dependencies:
   - numpy
   - scipy
   - ipyleaflet
-  - nbinteract
   - seaborn
