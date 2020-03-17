@@ -66,7 +66,8 @@ def get_popup(message):
         child=message,
         close_button=True,
         auto_close=False,
-        close_on_escape_key=False
+        close_on_escape_key=False,
+        keep_in_view=True
     )
     return popup
 
