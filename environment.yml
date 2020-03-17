@@ -10,3 +10,5 @@ dependencies:
   - scipy
   - ipyleaflet
   - seaborn
+  - pip
+    - nbinteract
