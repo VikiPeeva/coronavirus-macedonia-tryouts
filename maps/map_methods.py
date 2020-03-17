@@ -1,4 +1,4 @@
-from ipyleaflet import Map, Marker, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles, Polygon, Polyline
+from ipyleaflet import Map, Marker, AntPath, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles, Polygon, Polyline
 from ipywidgets import HTML
 
 import pandas as pd
@@ -9,7 +9,8 @@ def get_macedonia_map():
     m = Map(
         layers=(basemap_to_tiles(basemaps.OpenStreetMap.Mapnik), ),
         center=center,
-        zoom=8
+        zoom=8,
+        scroll_wheel_zoom=True
     )
     
     return m
@@ -94,6 +95,31 @@ def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker
     markers = MarkerCluster(markers=tuple(marker_list))
     m.add_layer(markers)
 
+
+def add_path_layer(m, d, from_lat='from_lat', from_lng='from_lng', to_lat='from_lat', to_lng='to_lng', cols=[],
+                   names=None, get_path=None):
+    if names is None:
+        names = cols
+
+    paths = list()
+
+    for ind in d.index:
+        row = d.loc[ind]
+        # if get_marker is None:
+        #     marker = Marker(location=location, draggable=False)
+        # else:
+        #     marker = get_marker(ind, location, row)
+        from_loc = [row[from_lat], row[from_lng]]
+        to_loc = [row[to_lat], row[to_lng]]
+        locations = [from_loc, to_loc]
+        if get_path is None:
+            ant_path = AntPath(locations=locations)
+        else:
+            ant_path = get_path(locations, row)
+
+        m.add_layer(ant_path)
+
+
 def add_polygon_layer(m, d, lat='lat', lon='lon', border_color='black', opacity=1, fill_color='black', fill_opacity=0.3):
     locations = list()
     for ind in d.index:
@@ -109,7 +135,7 @@ def add_polygon_layer(m, d, lat='lat', lon='lon', border_color='black', opacity=
     )
 
     m.add_layer(polygon)
-    
+
 def add_polyline_layer(m, d, line_group, lat='lat', lon='lon', border_color='black', opacity=1, fill_color=None, fill_opacity=0, weight=3):
     all_locations = dict()
     for ind in d.index:
@@ -119,7 +145,7 @@ def add_polyline_layer(m, d, line_group, lat='lat', lon='lon', border_color='bla
             locations = all_locations[row[line_group]]
         locations.append((row[lat], row[lon]))
         all_locations[row[line_group]] = locations
-        
+
     polyline = Polyline(
         locations=list(all_locations.values()),
         color=border_color,
@@ -128,7 +154,7 @@ def add_polyline_layer(m, d, line_group, lat='lat', lon='lon', border_color='bla
         fill_opacity=fill_opacity,
         weight=weight
     )
-    
+
     m.add_layer(polyline)
     
 def add_polygon_layer(m, locations, border_color='black', opacity=1, fill_color=None, fill_opacity=0, weight=3):
