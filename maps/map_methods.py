@@ -71,14 +71,15 @@ def get_popup(message):
     )
     return popup
 
-def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker=None, hide_marker=None):
+
+def marker_layer(d, lat='lat', lng='lng', cols=[], names=None, get_marker=None, hide_marker=None):
     if names is None:
         names = cols
-    
+
     marker_list = list()
 
     for ind in d.index:
-        row=d.loc[ind]
+        row = d.loc[ind]
         if hide_marker is not None and hide_marker(ind, row):
             continue
         location = (row[lat], row[lng])
@@ -86,15 +87,16 @@ def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker
             marker = Marker(location=location, draggable=False)
         else:
             marker = get_marker(ind, location, row)
-        
-        
+
         marker.popup = get_popup(get_popup_html_message(ind, row[cols], cols, names))
         marker_list.append(marker)
 
-
-
     markers = MarkerCluster(markers=tuple(marker_list))
-    m.add_layer(markers)
+    return markers
+
+
+def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker=None, hide_marker=None):
+    m.add_layer(marker_layer(m, d, lat, lng, cols, names, get_marker, hide_marker))
 
 
 def add_path_layer(m, d, from_lat='from_lat', from_lng='from_lng', to_lat='from_lat', to_lng='to_lng', cols=[],
