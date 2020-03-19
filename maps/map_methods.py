@@ -1,6 +1,7 @@
-from ipyleaflet import Map, Marker, AntPath, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles, Polygon, Polyline
+from ipyleaflet import Map, Marker, AntPath, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles, Polygon, Polyline, Icon
 from ipywidgets import HTML, Layout
 import pandas as pd
+import math
 
 
 def get_macedonia_map():
@@ -15,6 +16,7 @@ def get_macedonia_map():
     )
     
     return m
+
 
 def get_popup_html_message(name, row, cols, names):
     text = """
@@ -98,6 +100,27 @@ def marker_layer(d, lat='lat', lng='lng', cols=[], names=None, get_marker=None, 
 
 def add_marker_layer(m, d, lat='lat', lng='lng', cols=[], names=None, get_marker=None, hide_marker=None):
     m.add_layer(marker_layer(m, d, lat, lng, cols, names, get_marker, hide_marker))
+
+
+def hide_hospital_marker(name, row):
+    infected = row['count_x']
+    healed = row['count_y']
+    dead = row['count']
+    return (infected - healed - dead) < 1
+
+def get_hospital_marker(name, location, row):
+    infected = row['count_x']
+    healed = row['count_y']
+    dead = row['count']
+    current = infected - healed - dead
+    scale = math.log(current, 2)
+    hospital_icon = Icon(
+        icon_url='https://www.freeiconspng.com/uploads/ambulance-cross-hospital-icon-11.png',
+        icon_size=(10*scale, 10*scale),
+        icon_anchor=(5*scale, 5*scale),
+        popup_anchor=(0, -5*scale)
+    )
+    return Marker(location=location, draggable=False, icon=hospital_icon, z_index_offset=1000)
 
 
 def add_path_layer(m, d, from_lat='from_lat', from_lng='from_lng', to_lat='from_lat', to_lng='to_lng', cols=[],
