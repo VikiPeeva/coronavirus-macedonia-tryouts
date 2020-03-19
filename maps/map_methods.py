@@ -1,7 +1,7 @@
 from ipyleaflet import Map, Marker, AntPath, MarkerCluster, AwesomeIcon, Popup, basemaps, basemap_to_tiles, Polygon, Polyline
-from ipywidgets import HTML
-
+from ipywidgets import HTML, Layout
 import pandas as pd
+
 
 def get_macedonia_map():
     center=(41.6086, 21.7453)
@@ -10,7 +10,8 @@ def get_macedonia_map():
         layers=(basemap_to_tiles(basemaps.OpenStreetMap.Mapnik), ),
         center=center,
         zoom=8,
-        scroll_wheel_zoom=True
+        scroll_wheel_zoom=True,
+        layout=Layout(width='100%', height='600px')
     )
     
     return m
