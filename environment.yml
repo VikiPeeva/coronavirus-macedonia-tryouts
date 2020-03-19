@@ -10,6 +10,7 @@ dependencies:
   - scipy
   - ipyleaflet
   - seaborn
+  - geopandas
   - pip
   - pip:
     - nbinteract
