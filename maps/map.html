@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100% !important;">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -9,7 +9,7 @@
           crossorigin=""/>
 
     <style type="text/css">
-        #mapid { height: 600px; }
+        #mapid { height: 100% !important; }
 
         .info {
             padding: 6px 8px;
@@ -39,7 +39,7 @@
 
 
     <title>map</title>
-<body>
+<body style="height: 100% !important; margin: 0 !important;">
 
     <div id="mapid"></div>
 
@@ -74,7 +74,7 @@
         function getColor(d) {
             var color = d3.scale.linear()
                 .domain([minn, maxx])
-                .range(["yellow", "darkred"]);
+                .range(["grey", "darkred"]);
 
             return color(d);
         }
