@@ -56,6 +56,21 @@
 
 <script type="application/javascript">
 
+    var mymap = L.map('mapid').setView([41.6086, 21.7453], 8);
+
+
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYWxrdXptYW4iLCJhIjoiY2s3ejF1NzQxMDFxaDNmbG5hZHZwMGJvcSJ9.kb13A3FHS8ruLv9FjOVfCQ'
+    }).addTo(mymap);
+
+    var general_legend = '<b>Карантин</b><hr style="width: auto; border-bottom:4px solid red">'
+
     var mk_cities_covid = $.ajax({
         url:"https://raw.githubusercontent.com/VikiPeeva/coronavirus-macedonia-tryouts/master/maps/covid.geojson",
         dataType: "json",
@@ -63,6 +78,31 @@
         error: function (xhr) {
             alert(xhr.statusText)
         }
+    });
+
+    var quarantine = $.ajax({
+        url:"https://raw.githubusercontent.com/VikiPeeva/coronavirus-macedonia-tryouts/master/podatoci/macedonia/covid-quarantine.geojson",
+        dataType: "json",
+        success: console.log("Covid data successfully loaded."),
+        error: function (xhr) {
+            alert(xhr.statusText)
+        }
+    });
+
+    $.when(quarantine).done(function() {
+        function style(feature) {
+            return {
+                weight:7,
+                opacity: 1,
+                color: 'red',
+                fillOpacity: 0
+            };
+        }
+
+        L.geoJSON(quarantine.responseJSON,
+            {
+                style: style
+            }).addTo(mymap);
     });
 
     $.when(mk_cities_covid).done(function() {
@@ -97,18 +137,6 @@
             };
         }
 
-        var mymap = L.map('mapid').setView([41.6086, 21.7453], 8);
-
-
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoiYWxrdXptYW4iLCJhIjoiY2s3ejF1NzQxMDFxaDNmbG5hZHZwMGJvcSJ9.kb13A3FHS8ruLv9FjOVfCQ'
-        }).addTo(mymap);
-
         var geojson;
 
         var info = L.control();
@@ -130,6 +158,7 @@
         };
 
         function highlightFeature(e) {
+            geojson.resetStyle();
             var layer = e.target;
 
             layer.setStyle({
@@ -147,7 +176,7 @@
         }
 
         function resetHighlight(e) {
-            geojson.resetStyle(e.target);
+            geojson.resetStyle();
             info.update();
         }
 
@@ -157,9 +186,10 @@
 
         function onEachFeature(feature, layer) {
             layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: zoomToFeature
+                // mouseover: highlightFeature,
+                // mouseout: resetHighlight,
+                click: highlightFeature,
+                touch: highlightFeature
             });
         }
 
@@ -175,13 +205,15 @@
 
         legend.onAdd = function (map) {
 
+            num_cols = 5;
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = Array.from({length: 10}, (x,i) => Math.floor((i/9) * (maxx) + minn)),
+                grades = Array.from({length: num_cols}, (x,i) => Math.floor((i/(num_cols - 1)) * (maxx) + minn)),
                 labels = [];
 
-            div.innerHTML += 'Број активни случаи<br>';
+            div.innerHTML += general_legend;
+            div.innerHTML += '<b>Број активни случаи</b><br>';
             // loop through our density intervals and generate a label with a colored square for each interval
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < num_cols; i++) {
                 div.innerHTML +=
                     '<i style="background: '+ getColor(grades[i]) + '; opacity: ' + getOpacity(grades[i]) + '"></i> ' +
                     grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
