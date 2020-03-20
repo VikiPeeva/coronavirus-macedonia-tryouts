@@ -4,7 +4,6 @@
     <title>Стастистики за COVID-19 во Република Македонија</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="korona.css"/>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -43,62 +42,48 @@
 <!--</ul>-->
 <!--<div class="tab-content" id="myTabContent">-->
 <!-- <div class="tab-pane fade show active" id="map-cities" role="tabpanel" aria-labelledby="map-cities-tab">-->
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-xl-8 offset-xl-2 col-xs-12 mb-2 mt-2">
-            <h2>Статистики за COVID-19 во Македонија</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2 col-xs-0">
-            <div class="container">
+        <div class="col-12 col-lg-10 offset-lg-1">
+            <h1>Статистики за COVID-19 во Македонија</h1>
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-1">
-                        <h4 id="active-count"></h4>
+                    <div class="container col-lg-3 col-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-2" style="color: darkgoldenrod">
+                                <h3 id="active-count"></h3>
+                            </div>
+                            <div class="col-lg-8 col-4" style="color: darkgoldenrod">
+                                <h3>Активни</h3>
+                            </div>
+                            <div class="col-lg-4 col-2" style="color: darkred">
+                                <h3 id="total-count"></h3>
+                            </div>
+                            <div class="col-lg-8 col-4" style="color: darkred">
+                                <h3>Заразени</h3>
+                            </div>
+                            <div class="col-lg-4 col-2" style="color: darkgreen">
+                                <h3 id="recovered-count"></h3>
+                            </div>
+                            <div class="col-lg-8 col-4" style="color: darkgreen">
+                                <h3>Излечени</h3>
+                            </div>
+                            <div class="col-lg-4 col-2" style="color: black">
+                                <h3 id="dead-count"></h3>
+                            </div>
+                            <div class="col-lg-8 col-4" style="color: black">
+                                <h3>Мртви</h3>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-11">
-                        <h4>Активни</h4>
+                    <div class="col-lg-9 col-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="map embed-responsive-item" src="https://klupp.github.io/maps/cities"></iframe>
+                        </div>
+                        <h6>Податоците се достапни <a href="https://github.com/klupp/opendata" target="_blank">тука</a>.</h6>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-1">
-                        <h4 id="total-count"></h4>
-                    </div>
-                    <div class="col-xs-11">
-                        <h4>Заразени</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-1">
-                        <h4 id="recovered-count"></h4>
-                    </div>
-                    <div class="col-xs-11">
-                        <h4>Излечени</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <h4 id="dead-count"></h4>
-                    </div>
-                    <div class="col-xs-6">
-                        <h4>Мртви</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8 col-xs-12">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="map embed-responsive-item" src="https://klupp.github.io/maps/cities"></iframe>
-            </div>
-        </div>
-        <div class="col-lg-2 col-xs-0">
-            <div class="container">
-                <div class="row">
-                    <h6>Податоците се достапни <a href="https://github.com/klupp/opendata" target="_blank">тука</a>.</h6>
-                </div>
-<!--                <div class="row">-->
-<!--                    <h6>Статистики може да се видат на:</h6>-->
-<!--                </div>-->
+
             </div>
         </div>
     </div>

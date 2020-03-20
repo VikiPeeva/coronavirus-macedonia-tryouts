@@ -69,10 +69,10 @@
         accessToken: 'pk.eyJ1IjoiYWxrdXptYW4iLCJhIjoiY2s3ejF1NzQxMDFxaDNmbG5hZHZwMGJvcSJ9.kb13A3FHS8ruLv9FjOVfCQ'
     }).addTo(mymap);
 
-    var general_legend = '<b>Карантин</b><hr style="width: auto; border-bottom:4px solid red">'
+    var general_legend = '<i style="width: 15px; border-top:3px solid red; border-bottom:4px dashed red; border-left:3px solid red; border-right:3px dashed red; margin-right: 5px; width: 12px; height: 10px;"></i>Карантин</br>';
 
     var mk_cities_covid = $.ajax({
-        url:"https://raw.githubusercontent.com/VikiPeeva/coronavirus-macedonia-tryouts/master/maps/covid.geojson",
+        url:"https://raw.githubusercontent.com/klupp/opendata/master/mk/covid19/maps/mk_municipalities_covid.geojson",
         dataType: "json",
         success: console.log("Covid data successfully loaded."),
         error: function (xhr) {
@@ -81,7 +81,7 @@
     });
 
     var quarantine = $.ajax({
-        url:"https://raw.githubusercontent.com/VikiPeeva/coronavirus-macedonia-tryouts/master/podatoci/macedonia/covid-quarantine.geojson",
+        url:"https://raw.githubusercontent.com/klupp/opendata/master/mk/covid19/maps/covid-quarantine.geojson",
         dataType: "json",
         success: console.log("Covid data successfully loaded."),
         error: function (xhr) {
@@ -92,7 +92,7 @@
     $.when(quarantine).done(function() {
         function style(feature) {
             return {
-                weight:7,
+                weight:5,
                 opacity: 1,
                 color: 'red',
                 fillOpacity: 0
@@ -114,7 +114,7 @@
         function getColor(d) {
             var color = d3.scale.linear()
                 .domain([minn, maxx])
-                .range(["yellow", "darkred"]);
+                .range(["orange", "darkred"]);
 
             return color(d);
         }
@@ -122,8 +122,9 @@
         function getOpacity(d) {
             val = Math.log10(d + 1);
 
-            res = ((val - min_log) / (max_log - min_log)) * 0.8 + 0.01;
-            return res;
+            res = ((val - min_log) / (max_log - min_log))
+            res_final = res > 0 ? res * 0.8 + 0.1 : 0.01;
+            return res_final;
         }
 
         function style(feature) {
@@ -148,13 +149,36 @@
         };
 
         // method that we will use to update the control based on feature properties passed
+
         info.update = function (props) {
+            console.log(props)
             this._div.innerHTML = (props ?
-                '<b>' + props.id + '</b><br /><span style="color: darkgoldenrod">' + props.count + ' Активни</span>' +
-                '<br /><span style="color: darkred">' + props.count_infected + ' Заразени</span>' +
-                '<br /><span style="color: darkgreen">' + props.count_healed + ' Излечени</span>' +
-                '<br />' + props.count_dead + ' Мртви'
-                : 'Застани над град');
+                `
+                    <h4>${props.id}:</h4>
+                    <table style="font-size: 12pt; border-spacing: 10px 0; ">
+                        <tr style="color: darkgoldenrod; font-weight: bold">
+                            <td>${props.count}</td>
+                            <td>Активни</td>
+                        </tr>
+                        <tr style="color: darkred; font-weight: bold">
+                            <td>${props.count_infected}</td>
+                            <td>Заразени</td>
+                        </tr>
+                        <tr style="color: darkgreen; font-weight: bold">
+                            <td>${props.count_healed}</td>
+                            <td>Излечени</td>
+                        </tr>
+                        <tr style="color: black; font-weight: bold">
+                            <td>${props.count_dead}</span></td>
+                            <td>Мртви</td>
+                        </tr>
+                        <tr style="color: gray; font-weight: bold">
+                            <td>${props.population}</span></td>
+                            <td>Популација</td>
+                        </tr>
+                    </table>
+                `
+                : 'Кликни на општина');
         };
 
         function highlightFeature(e) {
@@ -207,17 +231,24 @@
 
             num_cols = 5;
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = Array.from({length: num_cols}, (x,i) => Math.floor((i/(num_cols - 1)) * (maxx) + minn)),
+                grades = Array.from({length: num_cols}, (x,i) => Math.floor((i/(num_cols - 1)) * (maxx - (minn + 1)) + (minn + 1))),
                 labels = [];
 
             div.innerHTML += general_legend;
-            div.innerHTML += '<b>Број активни случаи</b><br>';
+            var table = '<b><u>Број Aктивни</b></u><br><table cellspacing="0">';
             // loop through our density intervals and generate a label with a colored square for each interval
             for (var i = 0; i < num_cols; i++) {
-                div.innerHTML +=
-                    '<i style="background: '+ getColor(grades[i]) + '; opacity: ' + getOpacity(grades[i]) + '"></i> ' +
-                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+                table += `
+                    <tr>
+                        <td style="padding: 0 !important;"><i style="background: ${getColor(grades[i])}; opacity: ${getOpacity(grades[i])}"></i></td>
+                        <td style="padding: 0 !important;">${grades[i]}${(grades[i + 1] ? '&ndash;' + grades[i + 1] : '+')}</td>
+                    </tr>
+
+                `
             }
+            table += '</table>';
+
+            div.innerHTML += table;
 
             return div;
         };

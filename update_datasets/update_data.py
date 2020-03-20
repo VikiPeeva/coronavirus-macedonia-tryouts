@@ -85,3 +85,24 @@ def update_mk_covid_quarantine_geojson():
     quarantine = mk_cities_quarantine.dissolve(by='dissolvefield', aggfunc='sum')
 
     quarantine[['geometry', 'population']].to_file("../../opendata/mk/covid19/maps/covid-quarantine.geojson", 'GeoJSON')
+    
+
+def update_mk_covid_summary_datasets():
+    infected_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=0&single=true&output=csv", names=['city', 'infected_in', 'date', 'count', 'age', 'source'], header=0)
+
+    healed_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=757629356&single=true&output=csv", names=['city', 'date', 'count', 'age', 'source'], header=0)
+
+    dead_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=1754038661&single=true&output=csv", header=0, names=['city', 'date', 'count', 'age', 'source'])
+
+    infected_by_city = infected_df[['city', 'count']].copy().groupby('city').sum()
+    healded_by_city = healed_df[['city', 'count']].copy().groupby('city').sum()
+    dead_by_city = dead_df[['city', 'count']].copy().groupby('city').sum()
+    covid_mk = pd.merge(infected_by_city, healded_by_city, on='city', how='outer', suffixes=['_infected', '_healed'])
+    covid_mk['count'] = covid_mk.count_infected
+    covid_mk = pd.merge(covid_mk, dead_by_city, on='city', how='outer', suffixes=['', '_dead'])
+    covid_mk.fillna(int(0), inplace=True)
+    covid_mk['count_active'] = covid_mk.count_infected - covid_mk.count_healed - covid_mk.count_dead
+    covid_mk = covid_mk.astype(int)
+    covid_mk.drop('count', axis=1, inplace=True)
+
+    covid_mk.to_csv('../../opendata/mk/covid19/datasets/summary_by_municipality.csv')
