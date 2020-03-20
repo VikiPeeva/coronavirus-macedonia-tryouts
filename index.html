@@ -45,33 +45,53 @@
 <!-- <div class="tab-pane fade show active" id="map-cities" role="tabpanel" aria-labelledby="map-cities-tab">-->
 <div class="container">
     <div class="row">
-        <div class="col-xl-8 offset-xl-2 col-md-10 offset-md-1 col-sm-12 mb-2 mt-2">
+        <div class="col-xl-8 offset-xl-2 col-xs-12 mb-2 mt-2">
             <h2>Статистики за COVID-19 во Македонија</h2>
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-2 col-md-1 col-sm-0">
+        <div class="col-lg-2 col-xs-0">
             <div class="container">
                 <div class="row">
-                    <h4>Вкупно:</h4><h4 id="total-count"></h4>
+                    <div class="col-xs-1">
+                        <h4 id="active-count"></h4>
+                    </div>
+                    <div class="col-xs-11">
+                        <h4>Активни</h4>
+                    </div>
                 </div>
                 <div class="row">
-                    <h4>Активни:</h4><h4 id="active-count"></h4>
+                    <div class="col-xs-1">
+                        <h4 id="total-count"></h4>
+                    </div>
+                    <div class="col-xs-11">
+                        <h4>Заразени</h4>
+                    </div>
                 </div>
                 <div class="row">
-                    <h4>Оздравени:</h4><h4 id="recovered-count"></h4>
+                    <div class="col-xs-1">
+                        <h4 id="recovered-count"></h4>
+                    </div>
+                    <div class="col-xs-11">
+                        <h4>Излечени</h4>
+                    </div>
                 </div>
                 <div class="row">
-                    <h4>Мртви:</h4><h4 id="dead-count"></h4>
+                    <div class="col-xs-6">
+                        <h4 id="dead-count"></h4>
+                    </div>
+                    <div class="col-xs-6">
+                        <h4>Мртви</h4>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-8 col-md-10 col-sm-12">
+        <div class="col-lg-8 col-xs-12">
             <div class="embed-responsive embed-responsive-16by9">
                 <iframe class="map embed-responsive-item" src="https://klupp.github.io/maps/cities"></iframe>
             </div>
         </div>
-        <div class="col-xl-2 col-md-1 col-sm-0">
+        <div class="col-lg-2 col-xs-0">
             <div class="container">
                 <div class="row">
                     <h6>Податоците се достапни <a href="https://github.com/klupp/opendata" target="_blank">тука</a>.</h6>
