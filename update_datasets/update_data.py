@@ -106,3 +106,32 @@ def update_mk_covid_summary_datasets():
     covid_mk.drop('count', axis=1, inplace=True)
 
     covid_mk.to_csv('../../opendata/mk/covid19/datasets/summary_by_municipality.csv')
+    
+def update_hospital_summary():
+    hospital_data = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=695931938&single=true&output=csv",
+                           names=['hospital', 'latitude', 'longitude'], header=0)
+    
+    sick_hospitals = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=480309052&single=true&output=csv", header=0, names=['hospital', "date", "count", "age_range", 'origin', 'source'])
+
+    recovered_hospitals = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=1488187986&single=true&output=csv", header=0, names=['hospital', "date", "count", "age_range", 'source'])
+    
+    dead_hospitals = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=514503617&single=true&output=csv", header=0, names=['hospital', "date", "count", "age_range", 'source'])
+    
+    sick_hospital = sick_hospitals.groupby('hospital').sum()
+    recovered_hospital = recovered_hospitals.groupby('hospital').sum()
+    dead_hospital = dead_hospitals.groupby('hospital').sum()
+    
+    covid_hospitals = pd.merge(sick_hospital, recovered_hospital, on='hospital', how='outer', suffixes=['_infected', '_healed'])
+    covid_hospitals = pd.merge(covid_hospitals, dead_hospital, on='hospital', how='outer', suffixes=['', '_dead'])
+    covid_hospitals.fillna(0, inplace=True)
+    covid_hospitals = pd.merge(covid_hospitals, hospital_data, on='hospital', how='inner')
+    covid_hospitals = covid_hospitals.set_index("hospital")
+    covid_hospitals['count_dead'] = covid_hospitals['count']
+    covid_hospitals.drop(['date', 'age_range', 'count', 'source', 'source_dead'], axis=1, inplace=True)
+    covid_hospitals['count_active'] = covid_hospitals.count_infected - covid_hospitals.count_healed - covid_hospitals.count_dead
+    covid_hospitals['count'] = covid_hospitals.count_active
+    covid_hospitals['id'] = covid_hospitals.index
+    covid_hospitals.to_csv('../../opendata/mk/covid19/datasets/summary_by_hospital.csv')
+    gdf = geopandas.GeoDataFrame(covid_hospitals, geometry=geopandas.points_from_xy(covid_hospitals.longitude, covid_hospitals.latitude))
+    gdf.to_file("../../opendata/mk/covid19/maps/summary_hospital.geojson", 'GeoJSON')
+    
