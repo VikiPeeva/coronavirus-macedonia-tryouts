@@ -29,6 +29,9 @@ then
 fi
 echo Starting work cycle every $interval seconds. If you want to change the loop cycle length please send as \-i argument the length \in seconds.
 
+cd $OPENDATA_ROOT
+git pull
+cd $cwd
 python ./update.py $OPENDATA_ROOT
 cd $OPENDATA_ROOT
 git add .
@@ -41,6 +44,9 @@ cd $cwd
 while [[ ! -f /home/22/job_stop.txt ]] ; do
     now=$(date +%s) # timestamp in seconds
     sleep $((interval - now % interval))
+    cd $OPENDATA_ROOT
+    git pull
+    cd $cwd
     python ./update.py $OPENDATA_ROOT
     cd $OPENDATA_ROOT
     git add .
