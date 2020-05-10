@@ -10,5 +10,6 @@ dependencies:
   - seaborn
   - geopandas
   - pip
+  - mpld3
   - pip:
     - nbinteract

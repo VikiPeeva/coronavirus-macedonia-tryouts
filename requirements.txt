@@ -2,3 +2,4 @@ numpy
 ipywidgets
 nbinteract
 geopandas
+mpld3
