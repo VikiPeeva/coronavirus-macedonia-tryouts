@@ -59,8 +59,11 @@ def update_mk_covid_datasets(open_data_dir):
     dead_hospitals = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=514503617&single=true&output=csv", header=0, names=['hospital', "date", "count", "age_range", 'link'])
     dead_hospitals.to_csv('{}mk/covid19/datasets/dead_by_hospital.csv'.format(open_data_dir), index=False)
 
+    tests = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=854119060&single=true&output=csv", header=0, names=['date', 'count', 'total', 'where', 'source'])
+    tests.to_csv(f'{open_data_dir}mk/covid19/datasets/tests_total.csv', index=False)
+
     quarantine = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=325857359&single=true&output=csv", header=0, names=['municipality', "from", "to"])
-    quarantine.to_csv('{}mk/covid19/datasets/quarantine_by_municipality.csv'.format(open_data_dir), index=False)
+    quarantine.to_csv(f'{open_data_dir}mk/covid19/datasets/quarantine_by_municipality.csv', index=False)
 
     hospitals = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=695931938&single=true&output=csv", header=0, names=['hosital', "lon", "lat"])
     hospitals.to_csv('{}mk/bolnici-hospitals/hospitals.csv'.format(open_data_dir), index=False)
@@ -127,7 +130,7 @@ def update_hospital_summary(open_data_dir):
     covid_hospitals = pd.merge(covid_hospitals, hospital_data, on='hospital', how='inner')
     covid_hospitals = covid_hospitals.set_index("hospital")
     covid_hospitals['count_dead'] = covid_hospitals['count']
-    covid_hospitals.drop(['date', 'age_range', 'count', 'source'], axis=1, inplace=True)
+#     covid_hospitals.drop(['date', 'age_range', 'count', 'source'], axis=1, inplace=True)
     covid_hospitals['count_active'] = covid_hospitals.count_infected - covid_hospitals.count_healed - covid_hospitals.count_dead
     covid_hospitals['count'] = covid_hospitals.count_active
     covid_hospitals['id'] = covid_hospitals.index
