@@ -11,7 +11,7 @@ def update_mk_covid_geojson(open_data_dir):
     mk_cities['id'] = mk_cities.index
 
     infected_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=0&single=true&output=csv", 
-                              names=['city', 'infected_in', 'infected_in_city', 'date', 'count', 'age', 'source'], header=0)
+                              names=['city', 'infected_in', 'infected_in_city', 'date', 'count', 'age', 'screening', 'source'], header=0)
 
     healed_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=757629356&single=true&output=csv",
                            names=['city', 'date', 'count', 'age', 'source'], header=0)
@@ -41,7 +41,7 @@ def update_mk_covid_geojson(open_data_dir):
     covid_mk_cities[['geometry', 'id', 'count', 'count_infected', 'count_healed', 'count_dead', 'population']].to_file("{}mk/covid19/maps/mk_municipalities_covid.geojson".format(open_data_dir), 'GeoJSON')
     
 def update_mk_covid_datasets(open_data_dir): 
-    infected_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=0&single=true&output=csv", names=['city', 'infected_in', 'infected_in_city', 'date', 'count', 'age', 'source'], header=0)
+    infected_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=0&single=true&output=csv", names=['city', 'infected_in', 'infected_in_city', 'date', 'count', 'age', 'screening', 'source'], header=0)
     infected_df.to_csv('{}mk/covid19/datasets/infected_by_municipality.csv'.format(open_data_dir), index=False)
     
     healed_df = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=757629356&single=true&output=csv", names=['city', 'date', 'count', 'age', 'source'], header=0)
@@ -59,7 +59,7 @@ def update_mk_covid_datasets(open_data_dir):
     dead_hospitals = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=514503617&single=true&output=csv", header=0, names=['hospital', "date", "count", "age_range", 'link'])
     dead_hospitals.to_csv('{}mk/covid19/datasets/dead_by_hospital.csv'.format(open_data_dir), index=False)
 
-    tests = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=854119060&single=true&output=csv", header=0, names=['date', 'count', 'total', 'where', 'source'])
+    tests = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=854119060&single=true&output=csv", header=0, names=['date', 'count', 'total', 'where', 'screening', 'source'])
     tests.to_csv(f'{open_data_dir}mk/covid19/datasets/tests_total.csv', index=False)
 
     quarantine = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR-Ul4NMiPvca7QH-RlYk2Q1hrVmjjGp5tr5n64l1z-SH5S2NoMeqjSd5Ulo171tHKM2Crfr7u0tpcz/pub?gid=325857359&single=true&output=csv", header=0, names=['municipality', "from", "to"])
